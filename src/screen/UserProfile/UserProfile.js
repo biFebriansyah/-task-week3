@@ -1,72 +1,37 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Actions } from 'react-native-router-flux';
-import axios from 'axios';
 import { Button } from 'native-base'
+import { connect } from 'react-redux';
+import { logoutUser } from '../../public/Redux/Actions/auth'
 
-class Profile extends Component {
+class UserProfile extends Component {
+
     constructor(props) {
         super(props)
 
         this.state = {
-            data: [],
-            username: this.props.username
+
         }
-        this.getData = this.getData.bind(this);
-        this.goHire = this.goHire.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
-    goBack() {
-        Actions.pop()
-    }
-
-    getData() {
-        const username = this.props.username
-        axios({
-            method: 'get',
-            url: 'http://192.168.1.17:4000/engineer/' + this.state.username
-        }).then(res => {
-            let result = res.data.result[0][0];
-            this.setState({ data: result })
-        }).catch(err => {
-            if (err.response) {
-                return console.log(err.response.data.result[0])
-            }
-            if (err.request) {
-                return console.log('error from request', err.request);
-            }
-            else {
-                console.log(err)
-            }
-        })
-    }
-
-    goHire() {
-        Actions.Hirings({ engineer: this.state.username })
-    }
-
-    componentDidMount() {
-        this.getData()
+    logOut() {
+        this.props.dispatch(logoutUser());
     }
 
     render() {
-        const data = this.state.data
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.titleBar}>
-                        <TouchableOpacity onPress={this.goBack}><Ionicons name="ios-arrow-back" size={24} color="#52575D"></Ionicons></TouchableOpacity>
-                    </View>
-
                     <View style={{ alignSelf: "center" }}>
                         <View style={styles.profileImage}>
-                            <Image source={{ uri: data.photo }} style={styles.image} resizeMode="center"></Image>
+                            <Image source={{ uri: this.props.dataUser.photo }} style={styles.image} resizeMode="center"></Image>
                         </View>
                     </View>
 
                     <View style={styles.infoContainer}>
-                        <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{data.name}</Text>
+                        <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{this.props.dataUser.name}</Text>
                         <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Ui/Ux Designer</Text>
                     </View>
 
@@ -85,8 +50,8 @@ class Profile extends Component {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 300, flex: 1 }}>
-                        <Button rounded style={{ justifyContent: 'center', backgroundColor: '#bbb', width: 150 }} onPress={this.goHire} >
-                            <Text style={styles.text}>Hire Me</Text>
+                        <Button rounded style={{ justifyContent: 'center', backgroundColor: '#bbb', width: 150 }} onPress={this.logOut}>
+                            <Text style={styles.text}>Logout</Text>
                         </Button>
                     </View>
                 </ScrollView>
@@ -137,5 +102,10 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = state => {
+    return {
+        dataUser: state.data.userData
+    }
+}
 
-export default Profile
+export default connect(mapStateToProps)(UserProfile)

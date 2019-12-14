@@ -21,17 +21,57 @@ export const getEngineer2 = (username) => {
   return async (dispatch) => {
     try {
       dispatch({
-        type: 'GET_USER'
+        type: 'GET_USER_PENDING'
       })
-      
-      const getData = axios.get('http://192.168.1.17:4000/company/' + username)
+
+      const getData = await axios.get('http://192.168.1.17:4000/engineer/' + username)
+
       if (getData) {
         dispatch({
-          type: ''
+          type: 'GET_USER_FULFILLED',
+          payload: getData
         })
+        return getData
+      } else {
+        console.log(error)
       }
-      
+
     } catch (error) {
-      
+      dispatch({
+        type: "GET_USER_REJECTED",
+        payload: error.data
+      });
+      return error;
     }
+  }
+}
+
+export const getCompany2 = (username) => {
+
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'GET_USER_PENDING'
+      })
+
+      const getData = await axios.get('http://192.168.1.17:4000/company/' + username)
+
+      if (getData) {
+        dispatch({
+          type: 'GET_USER_FULFILLED',
+          payload: getData
+        })
+        return getData
+      } else {
+        console.log(error)
+      }
+
+    } catch (error) {
+      dispatch({
+        type: "GET_USER_REJECTED",
+        payload: error.data
+      });
+      return error;
+    }
+  }
 }

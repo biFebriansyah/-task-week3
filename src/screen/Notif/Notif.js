@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import moment from 'moment';
 
-class Project extends Component {
+class Notif extends Component {
     constructor(props) {
         super(props)
 
@@ -22,10 +22,10 @@ class Project extends Component {
 
     getData() {
 
-        if (!this.props.dataUser.skill) {
+        if (this.props.dataUser.skill) {
             axios({
                 method: 'get',
-                url: 'http://192.168.1.17:4000/project/company/' + this.state.userData.username,
+                url: 'http://192.168.1.17:4000/project/engineer/' + this.state.userData.username,
                 headers: { 'Content-Type': 'application/json' },
                 data: this.state.userData
 
@@ -33,6 +33,7 @@ class Project extends Component {
                 const result = res.data.result[0]
                 this.setState({ data: result })
                 console.log(result);
+                this.setState({ style: styles.hide })
             }).catch(err => {
                 if (err.response) {
                     const result = err.response.data.result
@@ -46,46 +47,18 @@ class Project extends Component {
                 }
             })
         } else {
-            this.setState({ style: styles.hide })
             return
-            // axios({
-            //     method: 'get',
-            //     url: 'http://192.168.1.17:4000/project/engineer/' + this.state.userData.username,
-            //     headers: { 'Content-Type': 'application/json' },
-            //     data: this.state.userData
-
-            // }).then(res => {
-            //     const result = res.data.result[0]
-            //     this.setState({ data: result })
-            //     console.log(result);
-            //     this.setState({ style: styles.hide })
-            // }).catch(err => {
-            //     if (err.response) {
-            //         const result = err.response.data.result
-            //         console.log(result);
-            //     }
-            //     if (err.request) {
-            //         return console.log(err.request)
-            //     }
-            //     else {
-            //         return console.log('unknown err ' + err)
-            //     }
-            // })
         }
     }
     componentDidMount() {
         this.getData()
     }
 
-    test() {
-        Actions.AdModal()
-    }
-
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={this.goBack} style={this.state.style} onPress={this.test}>
+                    <TouchableOpacity onPress={this.goBack} style={styles.hide} onPress={this.test}>
                         <Ionicons name="md-add-circle" size={20} color="#52575D"></Ionicons>
                         <Text style={{ fontSize: 16, marginLeft: 10 }}>Create</Text>
                     </TouchableOpacity>
@@ -158,4 +131,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Project)
+export default connect(mapStateToProps)(Notif)

@@ -7,13 +7,15 @@ import Icon from 'react-native-vector-icons/Ionicons'
 
 import Project from '../Project/Project';
 import Home from '../Home/Home';
+import UserProfile from '../UserProfile/UserProfile';
+import Notif from '../Notif/Notif';
 
 export default class Navigation extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            activeTab: 'home',
+            activeTab: 'project',
         }
         this.handleTabChange = this.handleTabChange.bind(this);
     }
@@ -77,7 +79,11 @@ export default class Navigation extends React.Component {
                             : this.state.activeTab === 'project' ?
                                 <Project />
                                 : this.state.activeTab === 'profile' ?
-                                    <Text>Hello</Text> : <Text>haii</Text>
+                                    <UserProfile />
+                                    : this.state.activeTab === 'notif' ?
+                                        <Notif />
+                                        : <Text>test</Text>
+
                     }
                 </View>
                 <BottomNavigation

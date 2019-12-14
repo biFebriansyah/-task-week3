@@ -6,18 +6,29 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-class Hire extends Component {
+class Hires extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             data: [],
             selected2: undefined,
+            engineer: this.props.engineer,
+            Fee: '',
             userData: {
-                username: this.userData.username
+                username: this.props.dataUser.username
             }
         }
         this.getData = this.getData.bind(this);
+        this.onSave = this.onSave.bind(this);
+        this.DataPut = new FormData();
+        this.setData = this.setData.bind(this);
+    }
+
+    setData() {
+        this.DataPut.append('idProject', this.state.selected2)
+        this.DataPut.append('username', this.state.engineer)
+        this.DataPut.append('salary', this.state.Fee)
     }
 
     getData() {
@@ -25,12 +36,36 @@ class Hire extends Component {
             method: 'get',
             url: 'http://192.168.1.17:4000/project/company/' + this.state.userData.username,
             headers: { 'Content-Type': 'application/json' },
-            data: this.state.userData
-
         }).then(res => {
             const result = res.data.result[0]
             this.setState({ data: result })
             console.log(result);
+        }).catch(err => {
+            if (err.response) {
+                const result = err.response.data.result
+                console.log(result);
+            }
+            if (err.request) {
+                return console.log(err.request)
+            }
+            else {
+                return console.log('unknown err ' + err)
+            }
+        })
+    }
+
+    onSave() {
+        this.setData()
+        axios({
+            method: 'put',
+            url: 'http://192.168.1.17:4000/project',
+            headers: { 'Content-Type': 'application/json' },
+            data: this.DataPut
+
+        }).then(res => {
+            const result = res.data.result[0]
+            console.log(result);
+            Actions.navigation()
         }).catch(err => {
             if (err.response) {
                 const result = err.response.data.result
@@ -53,7 +88,7 @@ class Hire extends Component {
 
     componentDidMount() {
         this.getData()
-        console.log(this.props.userData)
+        console.log(this.props)
     }
 
     render() {
@@ -97,12 +132,12 @@ class Hire extends Component {
                     <View style={{ marginTop: 10, marginBottom: 30 }}>
                         <Item inlineLabel style={{}}>
                             <Input placeholder='Fee'
-                                onChangeText={value => this.setState({ description: value })}
+                                onChangeText={value => this.setState({ Fee: value })}
                             />
                         </Item>
                     </View>
                     <View>
-                        <Button rounded primary style={{ justifyContent: "center", }} onPress={this.onSubmit} >
+                        <Button rounded primary style={{ justifyContent: "center", }} onPress={this.onSave} >
                             <Text>Send</Text>
                         </Button>
                     </View>
@@ -118,4 +153,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(Hire)
+export default connect(mapStateToProps, null)(Hires)

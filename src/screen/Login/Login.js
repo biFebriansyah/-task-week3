@@ -3,7 +3,7 @@ import { Item, Input, View, Button, Text, Label } from 'native-base';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { getCompany, getEngineer, getEngineer2 } from '../../public/Redux/Actions/User';
+import { getCompany, getEngineer, getCompany2, getEngineer2 } from '../../public/Redux/Actions/User';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import DataForm from 'form-data';
@@ -41,7 +41,7 @@ class Login extends Component {
     }
 
     login() {
-        
+
         this.setData()
         axios({
             method: 'post',
@@ -123,7 +123,7 @@ const mapDispatchToPropps = (dispatch) => {
 
     return {
         setDataEngineer: bindActionCreators(getEngineer2, dispatch),
-        setDataCompany: bindActionCreators(getCompany, dispatch)
+        setDataCompany: bindActionCreators(getCompany2, dispatch)
     };
 }
 

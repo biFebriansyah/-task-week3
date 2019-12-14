@@ -16,10 +16,9 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 //   reducers,
 //   applyMiddleware(logger, promiseMiddleware)
 // )
-console.log('masuk store')
 
 export default () => {
-  let store = createStore(persistedReducer, applyMiddleware(thunk));
+  let store = createStore(persistedReducer, {}, applyMiddleware(thunk));
   let persistor = persistStore(store)
   return { store, persistor }
 }
