@@ -15,7 +15,7 @@ export default class Navigation extends React.Component {
         super(props)
 
         this.state = {
-            activeTab: 'project',
+            activeTab: 'home',
         }
         this.handleTabChange = this.handleTabChange.bind(this);
     }

@@ -34,7 +34,7 @@ class Hires extends Component {
     getData() {
         axios({
             method: 'get',
-            url: 'http://192.168.1.17:4000/project/company/' + this.state.userData.username,
+            url: 'http://192.168.1.18:4000/project/company/' + this.state.userData.username,
             headers: { 'Content-Type': 'application/json' },
         }).then(res => {
             const result = res.data.result[0]
@@ -58,7 +58,7 @@ class Hires extends Component {
         this.setData()
         axios({
             method: 'put',
-            url: 'http://192.168.1.17:4000/project',
+            url: 'http://192.168.1.18:4000/project',
             headers: { 'Content-Type': 'application/json' },
             data: this.DataPut
 

@@ -25,7 +25,7 @@ class Project extends Component {
         if (!this.props.dataUser.skill) {
             axios({
                 method: 'get',
-                url: 'http://192.168.1.17:4000/project/company/' + this.state.userData.username,
+                url: 'http://192.168.1.18:4000/project/company/' + this.state.userData.username,
                 headers: { 'Content-Type': 'application/json' },
                 data: this.state.userData
 

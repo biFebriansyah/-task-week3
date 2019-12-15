@@ -39,7 +39,7 @@ class Add extends Component {
         this.setData()
         axios({
             method: 'post',
-            url: 'http://192.168.1.17:4000/project',
+            url: 'http://192.168.1.18:4000/project',
             headers: { 'Content-Type': 'application/json' },
             data: this.state
         }).then(res => {

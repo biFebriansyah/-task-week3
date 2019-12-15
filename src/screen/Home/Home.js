@@ -16,7 +16,7 @@ class Home extends Component {
     getData() {
         axios({
             method: 'get',
-            url: 'http://192.168.1.17:4000/engineer'
+            url: 'http://192.168.1.18:4000/engineer'
         }).then(res => {
             let result = res.data.result[0];
             this.setState({

@@ -4,7 +4,7 @@ export const getEngineer = (username) => {
   console.log('masuk Engineer')
   return {
     type: 'GET_USER',
-    payload: axios.get('http://192.168.1.17:4000/engineer/' + username)
+    payload: axios.get('http://192.168.1.18:4000/engineer/' + username)
   }
 }
 
@@ -12,7 +12,7 @@ export const getCompany = (username) => {
   console.log('masuk company')
   return {
     type: 'GET_USER',
-    payload: axios.get('http://192.168.1.17:4000/company/' + username)
+    payload: axios.get('http://192.168.1.18:4000/company/' + username)
   }
 }
 
@@ -24,7 +24,7 @@ export const getEngineer2 = (username) => {
         type: 'GET_USER_PENDING'
       })
 
-      const getData = await axios.get('http://192.168.1.17:4000/engineer/' + username)
+      const getData = await axios.get('http://192.168.1.18:4000/engineer/' + username)
 
       if (getData) {
         dispatch({
@@ -54,7 +54,7 @@ export const getCompany2 = (username) => {
         type: 'GET_USER_PENDING'
       })
 
-      const getData = await axios.get('http://192.168.1.17:4000/company/' + username)
+      const getData = await axios.get('http://192.168.1.18:4000/company/' + username)
 
       if (getData) {
         dispatch({

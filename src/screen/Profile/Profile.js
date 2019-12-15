@@ -25,7 +25,7 @@ class Profile extends Component {
         const username = this.props.username
         axios({
             method: 'get',
-            url: 'http://192.168.1.17:4000/engineer/' + this.state.username
+            url: 'http://192.168.1.18:4000/engineer/' + this.state.username
         }).then(res => {
             let result = res.data.result[0][0];
             this.setState({ data: result })
