@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text } from 'native-base';
-import { ScrollView, StyleSheet, SafeAreaView, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, SafeAreaView, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import axios from 'axios';
 import { FlatGrid } from 'react-native-super-grid';
 import { Actions } from 'react-native-router-flux';
+import { ListItem, SearchBar } from 'react-native-elements';
 
 class Home extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
+            loding: false,
             data: []
         }
+        this.arrayholder = [];
     }
+
     getData() {
+        this.setState({ loding: true })
         axios({
             method: 'get',
             url: 'http://192.168.1.18:4000/engineer'
@@ -22,14 +27,19 @@ class Home extends Component {
             this.setState({
                 data: result
             })
+            this.arrayholder = result
+            this.setState({ loding: false })
         }).catch(err => {
             if (err.response) {
+                this.setState({ loding: false })
                 return console.log(err.response.data.result[0])
             }
             if (err.request) {
+                this.setState({ loding: false })
                 return console.log('error from request', err.request);
             }
             else {
+                this.setState({ loding: false })
                 console.log(err)
             }
         })
@@ -39,7 +49,56 @@ class Home extends Component {
         this.getData()
     }
 
+    searchFilterFunction = text => {
+        this.setState({
+            value: text,
+        });
+
+        const newData = this.arrayholder.filter(item => {
+            const itemData = `${item.name.toUpperCase()} ${item.skill.toUpperCase()} ${item.location.toUpperCase()}`;
+            const textData = text.toUpperCase();
+
+            return itemData.indexOf(textData) > -1;
+        });
+        this.setState({
+            data: newData,
+        });
+    };
+
+    renderSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: '86%',
+                    backgroundColor: '#CED0CE',
+                    marginLeft: '14%',
+                }}
+            />
+        );
+    };
+
+    renderHeader = () => {
+        return (
+            <SearchBar
+                placeholder="Type Here..."
+                lightTheme
+                round
+                onChangeText={text => this.searchFilterFunction(text)}
+                autoCorrect={false}
+                value={this.state.value}
+            />
+        );
+    };
+
     render() {
+        if (this.state.loding) {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <ActivityIndicator />
+                </View>
+            );
+        }
         return (
             <SafeAreaView>
                 <ScrollView>
@@ -57,6 +116,10 @@ class Home extends Component {
                                     </View>
                                 </TouchableOpacity>
                             )}
+
+                            keyExtractor={item => item.username}
+                            ItemSeparatorComponent={this.renderSeparator}
+                            ListHeaderComponent={this.renderHeader}
                         />
                     </View>
                 </ScrollView>

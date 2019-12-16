@@ -1,16 +1,15 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import React, { Component } from 'react';
 import Login from '../../screen/Login/Login';
 import Home from '../../screen/Home/Home';
 import Registers from '../../screen/Register/Register';
-// import Test from './src/test/Test';
+import Test from '../../test/Test';
 import Profile from '../../screen/Profile/Profile';
 import Hire from '../../components/Hire/Hire';
 import Navigation from '../../screen/Navigation/Navigation';
 import Add from '../../screen/Project/add';
 import Project from '../../screen/Project/Project';
 import Hirings from '../../screen/hiring/Hiring';
-import { Router, Scene, Modal } from 'react-native-router-flux';
+import { Router, Scene } from 'react-native-router-flux';
 
 export default class Routes extends Component {
 
@@ -48,6 +47,10 @@ export default class Routes extends Component {
                         <Scene hideNavBar
                             key='Hirings'
                             component={Hirings}
+                        />
+                        <Scene hideNavBar
+                            key='test'
+                            component={Test}
                         />
                     </Scene>
                     <Scene key='auth' initial={!this.props.login}>
